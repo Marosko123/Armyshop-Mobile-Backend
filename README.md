@@ -17,5 +17,5 @@ php artisan serve
 php artisan make:migration create_users_table
 php artisan migrate
 php artisan make:model User
-php artisan make:controller Api/UserController
+php artisan make:controller Api/UsersController
 ```
