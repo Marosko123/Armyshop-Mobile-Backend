@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\SubcategoriesController;
 use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\Api\LikedProductsController;
+use App\Http\Controllers\Api\FinishedOrdersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,10 +79,12 @@ Route::get('subcategories/create', [SubcategoriesController::class, 'addAll']);
 Route::get('baskets/{user_id}', [BasketsController::class, 'getByUserId']);
 // add item to basket
 Route::post('baskets/add/{user_id}/{product_id}', [BasketsController::class, 'add']);
-// delete item from basket
-Route::delete('baskets/delete/{user_id}/{product_id}', [BasketsController::class, 'delete']);
+// decrease item quantity from basket
+Route::delete('baskets/delete/{user_id}/{product_id}', [BasketsController::class, 'deleteItem']);
+// delete all items of given id from basket
+Route::delete('baskets/delete_all_items/{user_id}/{product_id}', [BasketsController::class, 'deleteAllItems']);
 // update product in basket
-Route::put('baskets/update/{user_id}/{product_id}', [BasketsController::class, 'update']);
+Route::put('baskets/update/{user_id}/{product_id}/{quantity}', [BasketsController::class, 'update']);
 
 
 // PRODUCTS
@@ -122,3 +125,15 @@ Route::post('liked_products/add/{user_id}/{product_id}', [LikedProductsControlle
 Route::delete('liked_products/delete/{user_id}/{product_id}', [LikedProductsController::class, 'delete']);
 // get most popular products
 Route::get('liked_products/popular/{amount}', [LikedProductsController::class, 'getMostPopular']);
+
+
+// FINISHED ORDERS
+
+// get all finished orders of all users
+Route::get('finished_orders', [FinishedOrdersController::class, 'getAll']);
+// get all finished orders of user
+Route::get('finished_orders/{user_id}', [FinishedOrdersController::class, 'getAllOfUser']);
+// add finished orders of user
+Route::post('finished_orders/add/{user_id}', [FinishedOrdersController::class, 'add']);
+// delete finished orders of user
+Route::delete('finished_orders/delete/{user_id}', [FinishedOrdersController::class, 'delete']);

@@ -1,8 +1,11 @@
 {
     "private": true,
     "scripts": {
-        "dev": "vite",
-        "build": "vite build"
+        "build_all": "npm run db_wipe && npm run db_migrate && npm run db_seed && echo 'Server was built successfully' && npm run api_serve",
+        "db_wipe": "php artisan db:wipe",
+        "db_migrate": "php artisan migrate",
+        "db_seed": "php artisan db:seed",
+        "api_serve": "php artisan serve"
     },
     "devDependencies": {
         "axios": "^1.1.2",

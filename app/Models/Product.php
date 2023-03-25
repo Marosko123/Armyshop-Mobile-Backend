@@ -19,4 +19,9 @@ class Product extends Model
         'subcategory_id',
         'license_needed'
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

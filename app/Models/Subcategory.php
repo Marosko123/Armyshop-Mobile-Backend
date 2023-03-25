@@ -15,4 +15,9 @@ class Subcategory extends Model
         'name',
         'category_id'
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

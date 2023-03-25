@@ -15,4 +15,9 @@ class LikedProduct extends Model
         'user_id',
         'product_id'
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }
