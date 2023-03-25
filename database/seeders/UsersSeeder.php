@@ -10,6 +10,7 @@ class UsersSeeder extends Seeder
     public function run()
     {
         User::create([
+            'id' => 1,
             'first_name' => 'Admin',
             'last_name' => 'Admin',
             'email' => 'admin@armyshop.xd',
@@ -21,6 +22,7 @@ class UsersSeeder extends Seeder
         ]);
 
         User::create([
+            'id' => 2,
             'first_name' => 'Marosko',
             'last_name' => 'Bednar',
             'email' => 'marosko@arymshop.xd',
@@ -32,6 +34,7 @@ class UsersSeeder extends Seeder
         ]);
 
         User::create([
+            'id' => 3,
             'first_name' => 'Misko',
             'last_name' => 'Darovec',
             'email' => 'misko@arymshop.xd',
@@ -43,6 +46,7 @@ class UsersSeeder extends Seeder
         ]);
 
         User::create([
+            'id' => 4,
             'first_name' => 'Jozko',
             'last_name' => 'Vajda',
             'email' => 'jozko@centrum.sk',
