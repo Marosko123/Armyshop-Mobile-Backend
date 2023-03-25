@@ -89,7 +89,11 @@ Route::put('baskets/update/{user_id}/{product_id}/{quantity}', [BasketsControlle
 // PRODUCTS
 
 // get all products
-Route::get('products', [ProductsController::class, 'get']);
+Route::get('products', [ProductsController::class, 'getAll']);
+
+// get 1 product
+Route::get('products/product/{product_id}', [ProductsController::class, 'getOne']);
+
 // get products from category
 Route::get('products/category/{category_id}', [ProductsController::class, 'getFromCategory']);
 // get products from subcategory
