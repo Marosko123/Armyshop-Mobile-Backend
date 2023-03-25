@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\UsersController;
+use App\Http\Controllers\Api\LoginRegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,6 @@ Route::get('users/{id}', [UsersController::class, 'getById']);
 Route::post('users', [UsersController::class, 'add']);
 Route::put('users/{id}/update', [UsersController::class, 'update']);
 Route::delete('users/{id}/delete', [UsersController::class, 'delete']);
+
+Route::post('login', [LoginRegisterController::class, 'login']);
+Route::post('register', [LoginRegisterController::class, 'register']);

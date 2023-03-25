@@ -46,14 +46,9 @@ class UsersController extends Controller
     public function add(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|max:191',
-            'password' => 'required|string|max:191',
-            'first_name' => 'required|string|max:191',
-            'last_name' => 'required|string|max:191',
-            'age' => 'required|integer',
-            'address' => 'required|string|max:191',
-            'avatar_url' => 'required|string|max:191',
-            'has_license' => 'required|boolean|max:191'
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required',
+            'license_picture' => 'nullable|image|max:1024',
         ]);
 
         if ($validator->fails()) {
@@ -63,16 +58,19 @@ class UsersController extends Controller
             ], 422);
         }
 
-        $user = User::create([
-            'email' => $request->email,
-            'password' => $request->password,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'age' => $request->age,
-            'address' => $request->address,
-            'avatar_url' => $request->avatar_url,
-            'has_license' => $request->has_license
-        ]);
+        $user = new User;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->age = $request->age;
+        $user->address = $request->address;
+        $user->is_license_valid = $request->is_license_valid;
+        if ($request->hasFile('picture')) {
+            $path = $request->file('picture')->store('public/id_pictures');
+            $user->picture = $path;
+        }
+        $user->save();
 
         if (!$user) {
             return response()->json([
@@ -90,14 +88,14 @@ class UsersController extends Controller
     public function update(Request $request, int $id)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|max:191',
-            'password' => 'required|string|max:191',
-            'first_name' => 'required|string|max:191',
-            'last_name' => 'required|string|max:191',
-            'age' => 'required|integer',
-            'address' => 'required|string|max:191',
-            'avatar_url' => 'required|string|max:191',
-            'has_license' => 'required|boolean|max:191'
+            'email' => 'nullable|email|unique:users,email',
+            'password' => 'required',
+            'first_name' => 'nullable|string|max:191',
+            'last_name' => 'nullable|string|max:191',
+            'age' => 'nullable|integer',
+            'address' => 'nullable|string|max:191',
+            'license_picture' => 'nullable|image|max:1024',
+            'is_license_valid' => 'nullable|boolean'
         ]);
 
         if ($validator->fails()) {
@@ -117,14 +115,14 @@ class UsersController extends Controller
         }
 
         $user->update([
-            'email' => $request->email,
-            'password' => $request->password,
+            'email' => $request->email ?? $user->email,
+            'password' => bcrypt($request->password),
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'age' => $request->age,
             'address' => $request->address,
-            'avatar_url' => $request->avatar_url,
-            'has_license' => $request->has_license
+            'license_picture' => $request->license_picture,
+            'is_license_valid' => $request->is_license_valid
         ]);
 
         return response()->json([
