@@ -26,44 +26,48 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// USERS
+
+// get all users
 Route::get('users', [UsersController::class, 'get']);
+// get user by id
 Route::get('users/{id}', [UsersController::class, 'getById']);
+// add user
 Route::post('users', [UsersController::class, 'add']);
+// update user
 Route::put('users/{id}/update', [UsersController::class, 'update']);
+// delete user
 Route::delete('users/{id}/delete', [UsersController::class, 'delete']);
 
-Route::post('login', [LoginRegisterController::class, 'login']);
-Route::post('register', [LoginRegisterController::class, 'register']);
 
+// LOGIN AND REGISTER
+
+// login user
+Route::post('login', [LoginRegisterController::class, 'login']);
+// register user
+Route::post('register', [LoginRegisterController::class, 'register']);
 
 
 // CATEGORIES
 
 // get all categories
 Route::get('categories', [CategoriesController::class, 'get']);
-
 // get category by id
 Route::get('categories/id/{id}', [CategoriesController::class, 'getById']);
-
 // get category by name
 Route::get('categories/name/{name}', [CategoriesController::class, 'getByName']);
-
 // create categories
 Route::get('categories/create', [CategoriesController::class, 'add']);
 
 
 // SUBCATEGORIES
 
-
 // get subcategories of category
 Route::get('subcategories/category/{category_id}', [SubcategoriesController::class, 'getByCategory']);
-
 // get subcategory of category by name
 Route::get('subcategories/name/{name}/category/{category_id}', [SubcategoriesController::class, 'getById']);
-
 // create subcategories for category
 Route::get('subcategories/create/category/{category_id}', [SubcategoriesController::class, 'add']);
-
 // create all subcategories
 Route::get('subcategories/create', [SubcategoriesController::class, 'addAll']);
 
@@ -72,24 +76,20 @@ Route::get('subcategories/create', [SubcategoriesController::class, 'addAll']);
 
 // get basket for user
 Route::get('baskets/{user_id}', [BasketsController::class, 'getByUserId']);
-
 // add item to basket
 Route::post('baskets/add/{user_id}/{product_id}', [BasketsController::class, 'add']);
-
 // delete item from basket
 Route::delete('baskets/delete/{user_id}/{product_id}', [BasketsController::class, 'delete']);
-
 // update product in basket
 Route::put('baskets/update/{user_id}/{product_id}', [BasketsController::class, 'update']);
+
 
 // PRODUCTS
 
 // get all products
 Route::get('products', [ProductsController::class, 'get']);
-
 // get products from category
 Route::get('products/category/{category_id}', [ProductsController::class, 'getFromCategory']);
-
 // get products from subcategory
 Route::get('products/subcategory/{subcategory_id}', [ProductsController::class, 'getFromSubcategory']);
 
@@ -104,23 +104,19 @@ Route::get('products/subcategory/{subcategory_id}', [ProductsController::class, 
 //     "license_needed": true
 // }
 Route::post('products/create', [ProductsController::class, 'add']);
-
 // delete a product
 Route::delete('products/delete/{product_id}', [ProductsController::class, 'delete']);
-
 // delete all products
 Route::delete('products/delete/all', [ProductsController::class, 'deleteAll']);
+
 
 // LIKED PRODUCTS
 
 // get Liked products
 Route::get('liked_products/{user_id}', [LikedProductsController::class, 'get']);
-
 // add to liked products
 Route::post('liked_products/add/{user_id}/{product_id}', [LikedProductsController::class, 'add']);
-
 // delete from liked products
 Route::delete('liked_products/delete/{user_id}/{product_id}', [LikedProductsController::class, 'delete']);
-
 // get most popular products
 Route::get('liked_products/popular/{amount}', [LikedProductsController::class, 'getMostPopular']);
