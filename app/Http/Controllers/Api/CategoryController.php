@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function getCategories()
+    public function get()
     {
         $categories = Category::all();
         if ($categories->isEmpty()) {
@@ -24,7 +24,7 @@ class CategoryController extends Controller
         ], 200);
     }
 
-    public function getCategoryById($id)
+    public function getById($id)
     {
         $category = Category::find($id);
 
@@ -41,7 +41,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function getCategoryByName($name)
+    public function getByName($name)
     {
         $category = Category::where('name', $name)->first();
 
@@ -58,7 +58,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function addCategories()
+    public function add()
     {
         $categoryList = ['Weapons', 'Transport', 'Clothing', 'Explosives', 'Equipment', 'Accessories'];
         $created = 0;
@@ -77,7 +77,7 @@ class CategoryController extends Controller
             ]);
         } else {
             return response()->json([
-                'status' => 404,
+                'status' => 500,
                 'message' => 'Something went wrong'
             ]);
         }

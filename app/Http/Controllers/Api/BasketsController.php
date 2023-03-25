@@ -9,7 +9,7 @@ use App\Models\User;
 
 class BasketsController extends Controller
 {
-    public function getBasketForUser(Request $request, $user_id)
+    public function getByUserId(Request $request, $user_id)
     {
         // find user with the user id
         $user = User::find($user_id);
