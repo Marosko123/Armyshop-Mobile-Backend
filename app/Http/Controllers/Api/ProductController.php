@@ -11,9 +11,10 @@ use App\Models\Subcategory;
 
 class ProductController extends Controller
 {
-    public function getProducts() {
+    public function get()
+    {
         $products = Product::all();
-        if($products) {
+        if ($products) {
             return response()->json([
                 'status' => 200,
                 'products' => $products
@@ -23,10 +24,11 @@ class ProductController extends Controller
                 'status' => 500,
                 'message' => 'Failed to get products from database.'
             ], 500);
-        } 
+        }
     }
 
-    public function getProductsFromCategory($category_id) {
+    public function getFromCategory($category_id)
+    {
         // $subs = Subcategory::where('category_id', (int) $category_id)->get();
         // $products = [];
 
@@ -35,14 +37,14 @@ class ProductController extends Controller
         //     array_push($products, ...$foundProducts);
         // }
 
-        $products = Product::whereIn('subcategory_id', function($query) use ($category_id) {
+        $products = Product::whereIn('subcategory_id', function ($query) use ($category_id) {
             $query->select('id')
-                  ->from('subcategories')
-                  ->where('category_id', $category_id);
+                ->from('subcategories')
+                ->where('category_id', $category_id);
         })->get();
 
 
-        if($products) {
+        if ($products) {
             return response()->json([
                 'status' => 200,
                 'products' => $products
@@ -52,12 +54,13 @@ class ProductController extends Controller
                 'status' => 500,
                 'message' => 'Failed to get products from database.'
             ], 500);
-        } 
+        }
     }
 
-    public function getProductsFromSubcategory($subcategory_id) {
+    public function getFromSubcategory($subcategory_id)
+    {
         $products = Product::where('subcategory_id', $subcategory_id)->get();
-        if(count($products) > 0) {
+        if (count($products) > 0) {
             return response()->json([
                 'status' => 200,
                 'products' => $products
@@ -67,14 +70,16 @@ class ProductController extends Controller
                 'status' => 500,
                 'message' => 'Failed to get products from database.'
             ], 500);
-        } 
+        }
     }
 
-    public function getMostPopularProducts($amount) {
-        
+    public function getMostPopular($amount)
+    {
+
     }
 
-    public function addProduct(Request $request) {
+    public function add(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:20',
             'price' => 'required|numeric|between:0,9999999.9',
@@ -84,7 +89,7 @@ class ProductController extends Controller
             'license_needed' => 'required|boolean'
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
                 'message' => $validator->messages()
@@ -99,7 +104,7 @@ class ProductController extends Controller
                 'license_needed' => $request->license_needed
             ]);
 
-            if($product) {
+            if ($product) {
                 return response()->json([
                     'status' => 200,
                     'product' => $product

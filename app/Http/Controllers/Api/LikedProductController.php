@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\Validator;
 
 class LikedProductController extends Controller
 {
-    public function getLikedProducts($user_id) {
+    public function get($user_id)
+    {
         $products = LikedProduct::where('user_id', $user_id)->get();
 
-        if($products) {
-            if(count($products) > 0) { // more than 0 products
+        if ($products) {
+            if (count($products) > 0) { // more than 0 products
                 return response()->json([
                     'status' => 200,
                     'products' => $products
@@ -26,14 +27,16 @@ class LikedProductController extends Controller
                 ], 201);
             }
         } else {
-            return response()->json([ // failed to get products
+            return response()->json([
+                // failed to get products
                 'status' => 500,
                 'message' => 'Failed to get products from database.'
             ], 500);
-        } 
+        }
     }
 
-    public function addToLiked($user_id, $product_id) {
+    public function add($user_id, $product_id)
+    {
         // check if this user_id exists
 
         // $user = User::find($user_id);
@@ -49,19 +52,19 @@ class LikedProductController extends Controller
             'user_id' => $user_id,
             'product_id' => $product_id
         ];
-        
+
         $validator = Validator::make($liked, [
             'user_id' => 'required|integer:0,9999999',
             'product_id' => 'required|integer:0,9999999',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
                 'message' => $validator->messages()
             ], 422);
         } else {
-            if($liked) {
+            if ($liked) {
                 return response()->json([
                     'status' => 200,
                     'liked_product' => $liked
@@ -75,7 +78,8 @@ class LikedProductController extends Controller
         }
     }
 
-    public function removeFromLiked($user_id, $product_id) {
+    public function delete($user_id, $product_id)
+    {
         // check if this user_id exists
 
         // $user = User::find($user_id);
@@ -86,13 +90,13 @@ class LikedProductController extends Controller
         //         'message' => 'User with this ID was not found.'
         //     ], 502);
         // }
-        
+
         // find this entry in database
         $foundProduct = LikedProduct::where('user_id', $user_id)
-            -> where('product_id', $product_id)
-            -> first();
+            ->where('product_id', $product_id)
+            ->first();
 
-        if($foundProduct) {
+        if ($foundProduct) {
             $foundProduct->delete();
             return response()->json([
                 'status' => 200,
@@ -105,23 +109,24 @@ class LikedProductController extends Controller
             ], 500);
         }
     }
-    
-    public function getMostPopularProducts($amount) {
+
+    public function getMostPopular($amount)
+    {
         $mostLikedProducts = LikedProduct::selectRaw('count(*) as count, product_id')
             ->groupBy('product_id')
             ->orderBy('count', 'desc')
             ->limit($amount)
             ->get();
 
-        if(!$mostLikedProducts) {
+        if (!$mostLikedProducts) {
             return response()->json([
                 'status' => 500,
                 'message' => 'Could not find any liked products.'
             ], 500);
-        } 
+        }
         $productIds = $mostLikedProducts->pluck('product_id');
         $mostPopularProducts = Product::whereIn('id', $productIds)->get();
-        if(!$mostPopularProducts) {
+        if (!$mostPopularProducts) {
             return response()->json([
                 'status' => 501,
                 'message' => 'Could not find any most popular products.'

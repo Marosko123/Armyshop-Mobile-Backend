@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class SubcategoryController extends Controller
 {
-    public function getSubcategoriesByCategory($category_id)
+    public function getByCategory($category_id)
     {
         $subcategories = Subcategory::where('category_id', $category_id)->get();
 
@@ -27,11 +27,11 @@ class SubcategoryController extends Controller
         }
     }
 
-    public function getSubcategoryById($category_id, $name)
+    public function getById($category_id, $name)
     {
         $subcategory = Subcategory::where('category_id', $category_id)
-                            ->where('name', $name)
-                            ->first();
+            ->where('name', $name)
+            ->first();
 
         if ($subcategory) {
             return response()->json([
@@ -46,18 +46,23 @@ class SubcategoryController extends Controller
         }
     }
 
-    public function addSubcategories($category_id)
+    public function add($category_id)
     {
 
         $subcategoriesDict = [
-            ['Pistols', 'Rifles', 'SMGs', 'Heavy', 'Knives'], // Weapons
-            ['Cars', 'Motorcycles', 'Panzers', 'Planes', 'Boats'], // Transport
-            ['Jackets', 'Trousers', 'Shoes', 'Pants', 'Socks'], // Clothing
-            ['C4s', 'Nukes', 'Grenades', 'TNTs', 'Bombs'], // Explosives
-            ['Backpacks', 'Hunting', 'Camping'], // Equipment
+            ['Pistols', 'Rifles', 'SMGs', 'Heavy', 'Knives'],
+            // Weapons
+            ['Cars', 'Motorcycles', 'Panzers', 'Planes', 'Boats'],
+            // Transport
+            ['Jackets', 'Trousers', 'Shoes', 'Pants', 'Socks'],
+            // Clothing
+            ['C4s', 'Nukes', 'Grenades', 'TNTs', 'Bombs'],
+            // Explosives
+            ['Backpacks', 'Hunting', 'Camping'],
+            // Equipment
             ['Glasses', 'Face paint', 'Camouflage'], // Accessories
         ];
-        $subcategories = $subcategoriesDict[$category_id-1];
+        $subcategories = $subcategoriesDict[$category_id - 1];
         $created = 0;
         $createdAll = false;
 
@@ -65,7 +70,7 @@ class SubcategoryController extends Controller
             $subcategoryObject['name'] = $subcategory;
             $subcategoryObject['category_id'] = $category_id;
             $isCreated = Subcategory::create($subcategoryObject);
-            if($isCreated) {
+            if ($isCreated) {
                 $created++;
             }
         }
@@ -73,7 +78,7 @@ class SubcategoryController extends Controller
         if ($created == count($subcategories)) {
             $createdAll = true;
         }
-        
+
         if ($createdAll) {
             return response()->json([
                 'status' => 200,
@@ -87,21 +92,27 @@ class SubcategoryController extends Controller
         }
     }
 
-    public function addAllSubcategories()
+    public function addAll()
     {
         $categories = Category::all();
         $subcategoriesDict = [
-            ['Pistols', 'Rifles', 'SMGs', 'Heavy', 'Knives'], // Weapons
-            ['Cars', 'Motorcycles', 'Panzers', 'Planes', 'Boats'], // Transport
-            ['Jackets', 'Trousers', 'Shoes', 'Pants', 'Socks'], // Clothing
-            ['C4s', 'Nukes', 'Grenades', 'TNTs', 'Bombs'], // Explosives
-            ['Backpacks', 'Hunting', 'Camping'], // Equipment
-            ['Glasses', 'Face paint', 'Camouflage'], // Accessories
+            // Weapons
+            ['Pistols', 'Rifles', 'SMGs', 'Heavy', 'Knives'],
+            // Transport
+            ['Cars', 'Motorcycles', 'Panzers', 'Planes', 'Boats'],
+            // Clothing
+            ['Jackets', 'Trousers', 'Shoes', 'Pants', 'Socks'],
+            // Explosives
+            ['C4s', 'Nukes', 'Grenades', 'TNTs', 'Bombs'],
+            // Equipment
+            ['Backpacks', 'Hunting', 'Camping'],
+            // Accessories
+            ['Glasses', 'Face paint', 'Camouflage'],
         ];
         $createdAll = true;
 
         foreach ($categories as $category) {
-            $subcategories = $subcategoriesDict[$category->id-1];
+            $subcategories = $subcategoriesDict[$category->id - 1];
             $created = 0;
 
             foreach ($subcategories as $subcategory) {
