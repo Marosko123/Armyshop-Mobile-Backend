@@ -11,7 +11,7 @@ use App\Models\Subcategory;
 
 class ProductsController extends Controller
 {
-    public function get()
+    public function getAll()
     {
         $products = Product::all();
         if ($products) {
@@ -23,6 +23,22 @@ class ProductsController extends Controller
             return response()->json([
                 'status' => 500,
                 'message' => 'Failed to get products from database.'
+            ], 500);
+        }
+    }
+
+    public function getOne($product_id)
+    {
+        $product = Product::find($product_id);
+        if ($product) {
+            return response()->json([
+                'status' => 200,
+                'product' => $product
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Failed to get product from database.'
             ], 500);
         }
     }
