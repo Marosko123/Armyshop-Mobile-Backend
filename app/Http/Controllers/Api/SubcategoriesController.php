@@ -8,7 +8,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 
 
-class SubcategoryController extends Controller
+class SubcategoriesController extends Controller
 {
     public function getByCategory($category_id)
     {

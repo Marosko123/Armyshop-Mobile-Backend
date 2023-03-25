@@ -9,7 +9,7 @@ use App\Models\Product;
 use App\Models\Subcategory;
 
 
-class ProductController extends Controller
+class ProductsController extends Controller
 {
     public function get()
     {

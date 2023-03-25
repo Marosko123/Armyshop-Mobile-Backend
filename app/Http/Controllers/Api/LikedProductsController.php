@@ -8,7 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class LikedProductController extends Controller
+class LikedProductsController extends Controller
 {
     public function get($user_id)
     {
@@ -120,17 +120,17 @@ class LikedProductController extends Controller
 
         if (!$mostLikedProducts) {
             return response()->json([
-                'status' => 500,
+                'status' => 404,
                 'message' => 'Could not find any liked products.'
-            ], 500);
+            ], 404);
         }
         $productIds = $mostLikedProducts->pluck('product_id');
         $mostPopularProducts = Product::whereIn('id', $productIds)->get();
         if (!$mostPopularProducts) {
             return response()->json([
-                'status' => 501,
+                'status' => 404,
                 'message' => 'Could not find any most popular products.'
-            ], 501);
+            ], 404);
         }
         return $mostPopularProducts;
     }

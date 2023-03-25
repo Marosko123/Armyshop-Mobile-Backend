@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\BasketsController;
-use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\Api\SubcategoryController;
-use App\Http\Controllers\Api\ProductController;
-use App\Http\Controllers\Api\LikedProductController;
+use App\Http\Controllers\Api\CategoriesController;
+use App\Http\Controllers\Api\SubcategoriesController;
+use App\Http\Controllers\Api\ProductsController;
+use App\Http\Controllers\Api\LikedProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,59 +40,58 @@ Route::post('register', [LoginRegisterController::class, 'register']);
 // CATEGORIES
 
 // get all categories
-Route::get('categories', [CategoryController::class, 'get']);
+Route::get('categories', [CategoriesController::class, 'get']);
 
 // get category by id
-Route::get('categories/id/{id}', [CategoryController::class, 'getById']);
+Route::get('categories/id/{id}', [CategoriesController::class, 'getById']);
 
 // get category by name
-Route::get('categories/name/{name}', [CategoryController::class, 'getByName']);
+Route::get('categories/name/{name}', [CategoriesController::class, 'getByName']);
 
 // create categories
-Route::get('categories/create', [CategoryController::class, 'add']);
+Route::get('categories/create', [CategoriesController::class, 'add']);
 
 
 // SUBCATEGORIES
 
 
 // get subcategories of category
-Route::get('subcategories/category/{category_id}', [SubcategoryController::class, 'getByCategory']);
+Route::get('subcategories/category/{category_id}', [SubcategoriesController::class, 'getByCategory']);
 
 // get subcategory of category by name
-Route::get('subcategories/name/{name}/category/{category_id}', [SubcategoryController::class, 'getById']);
+Route::get('subcategories/name/{name}/category/{category_id}', [SubcategoriesController::class, 'getById']);
 
 // create subcategories for category
-Route::get('subcategories/create/category/{category_id}', [SubcategoryController::class, 'add']);
+Route::get('subcategories/create/category/{category_id}', [SubcategoriesController::class, 'add']);
 
 // create all subcategories
-Route::get('subcategories/create', [SubcategoryController::class, 'addAll']);
+Route::get('subcategories/create', [SubcategoriesController::class, 'addAll']);
 
 
 // BASKETS
 
 // get basket for user
-Route::get('user/{user_id}/basket', [BasketsController::class, 'getByUserId']);
+Route::get('baskets/{user_id}', [BasketsController::class, 'getByUserId']);
 
 // add item to basket
-Route::post('user/{user_id}/basket/add/{product_id}', [BasketsController::class, 'add']);
+Route::post('baskets/add/{user_id}/{product_id}', [BasketsController::class, 'add']);
 
 // delete item from basket
-Route::delete('user/{user_id}/basket/delete/{product_id}', [BasketsController::class, 'delete']);
+Route::delete('baskets/delete/{user_id}/{product_id}', [BasketsController::class, 'delete']);
 
-// update amount of certain product
-Route::put('user/{user_id}/basket/update/{product_id}/count/{count}', [BasketsController::class, 'update']);
-
+// update product in basket
+Route::put('baskets/update/{user_id}/{product_id}', [BasketsController::class, 'update']);
 
 // PRODUCTS
 
 // get all products
-Route::get('products', [ProductController::class, 'get']);
+Route::get('products', [ProductsController::class, 'get']);
 
 // get products from category
-Route::get('products/{id}/categories', [ProductController::class, 'getFromCategory']);
+Route::get('products/category/{category_id}', [ProductsController::class, 'getFromCategory']);
 
 // get products from subcategory
-Route::get('products/{subcategory_id}/subcategory', [ProductController::class, 'getFromSubcategory']);
+Route::get('products/subcategory/{subcategory_id}', [ProductsController::class, 'getFromSubcategory']);
 
 // create a product
 // sample creation JSON:
@@ -104,24 +103,24 @@ Route::get('products/{subcategory_id}/subcategory', [ProductController::class, '
 //     "subcategory_id": 1,
 //     "license_needed": true
 // }
-Route::post('products/create', [ProductController::class, 'add']);
+Route::post('products/create', [ProductsController::class, 'add']);
 
 // delete a product
-Route::delete('products/delete/product/{product_id}', [ProductController::class, 'remove']);
+Route::delete('products/delete/{product_id}', [ProductsController::class, 'delete']);
 
 // delete all products
-Route::delete('products/delete/all', [ProductController::class, 'removeAll']);
+Route::delete('products/delete/all', [ProductsController::class, 'deleteAll']);
 
 // LIKED PRODUCTS
 
 // get Liked products
-Route::get('user/{user_id}/liked', [LikedProductController::class, 'get']);
+Route::get('liked_products/{user_id}', [LikedProductsController::class, 'get']);
 
 // add to liked products
-Route::post('user/{user_id}/liked/add/{product_id}', [LikedProductController::class, 'add']);
+Route::post('liked_products/add/{user_id}/{product_id}', [LikedProductsController::class, 'add']);
 
-// remove from liked products
-Route::delete('user/{user_id}/liked/remove/{product_id}', [LikedProductController::class, 'delete']);
+// delete from liked products
+Route::delete('liked_products/delete/{user_id}/{product_id}', [LikedProductsController::class, 'delete']);
 
 // get most popular products
-Route::get('products/popular/{amount}', [LikedProductController::class, 'getMostPopular']);
+Route::get('liked_products/popular/{amount}', [LikedProductsController::class, 'getMostPopular']);
