@@ -89,13 +89,12 @@ class UsersController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'nullable|email|unique:users,email',
-            'password' => 'required',
+            'password' => 'nullable',
             'first_name' => 'nullable|string|max:191',
             'last_name' => 'nullable|string|max:191',
             'age' => 'nullable|integer',
             'address' => 'nullable|string|max:191',
             'license_picture' => 'nullable|image|max:1024',
-            'is_license_valid' => 'nullable|boolean'
         ]);
 
         if ($validator->fails()) {
@@ -116,13 +115,12 @@ class UsersController extends Controller
 
         $user->update([
             'email' => $request->email ?? $user->email,
-            'password' => bcrypt($request->password),
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'age' => $request->age,
-            'address' => $request->address,
-            'license_picture' => $request->license_picture,
-            'is_license_valid' => $request->is_license_valid
+            'password' => bcrypt($request->password) ?? $user->password,
+            'first_name' => $request->first_name ?? $user->first_name,
+            'last_name' => $request->last_name ?? $user->last_name,
+            'age' => $request->age ?? $user->age,
+            'address' => $request->address ?? $user->address,
+            'license_picture' => $request->license_picture ?? $user->license_picture
         ]);
 
         return response()->json([
