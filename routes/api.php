@@ -56,16 +56,16 @@ Route::get('categories/create', [CategoryController::class, 'addCategories']);
 
 
 // get subcategories of category
-Route::get('category/{category_id}/subcategories', [SubcategoryController::class, 'getSubcategoriesByCategory']);
+Route::get('subcategories/category/{category_id}', [SubcategoryController::class, 'getSubcategoriesByCategory']);
 
 // get subcategory of category by name
-Route::get('category/{category_id}/subcategories/name/{name}', [SubcategoryController::class, 'getSubcategoryById']);
+Route::get('subcategories/name/{name}/category/{category_id}', [SubcategoryController::class, 'getSubcategoryById']);
 
 // create subcategories for category
-Route::get('category/{category_id}/subcategories/create', [SubcategoryController::class, 'addSubcategories']);
+Route::get('subcategories/create/category/{category_id}', [SubcategoryController::class, 'addSubcategories']);
 
 // create all subcategories
-Route::get('category/subcategories/create', [SubcategoryController::class, 'addAllSubcategories']);
+Route::get('subcategories/create', [SubcategoryController::class, 'addAllSubcategories']);
 
 
 // BASKETS
