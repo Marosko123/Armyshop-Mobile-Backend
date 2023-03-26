@@ -68,7 +68,7 @@ Route::get('categories/create', [CategoriesController::class, 'add']);
 // get subcategories of category
 Route::get('subcategories/category/{category_id}', [SubcategoriesController::class, 'getByCategory']);
 // get subcategory of category by name
-Route::get('subcategories/name/{name}/category/{category_id}', [SubcategoriesController::class, 'getById']);
+Route::get('subcategories/name/{name}/category/{category_id}', [SubcategoriesController::class, 'getByName']);
 // create subcategories for category
 Route::get('subcategories/create/category/{category_id}', [SubcategoriesController::class, 'add']);
 // create all subcategories

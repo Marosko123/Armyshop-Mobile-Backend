@@ -27,7 +27,7 @@ class SubcategoriesController extends Controller
         }
     }
 
-    public function getById($category_id, $name)
+    public function getByName($name, $category_id)
     {
         $subcategory = Subcategory::where('category_id', $category_id)
             ->where('name', $name)
