@@ -41,7 +41,7 @@ class LikedProductsController extends Controller
         // check if this user_id exists
         $user = User::find($user_id);
 
-        if(!$user) {
+        if (!$user) {
             return response()->json([
                 'status' => 501,
                 'message' => 'User with this ID was not found.'
@@ -50,10 +50,10 @@ class LikedProductsController extends Controller
 
         // check if this user already has this product liked
         $hasLiked = LikedProduct::where('user_id', $user_id)
-            -> where('product_id', $product_id)
-            -> exists();
-        
-        if($hasLiked) {
+            ->where('product_id', $product_id)
+            ->exists();
+
+        if ($hasLiked) {
             return response()->json([
                 'status' => 500,
                 'message' => 'User with this ID has already liked this product.'
@@ -97,7 +97,7 @@ class LikedProductsController extends Controller
 
         $user = User::find($user_id);
 
-        if(!$user) {
+        if (!$user) {
             return response()->json([
                 'status' => 502,
                 'message' => 'User with this ID was not found.'
@@ -139,6 +139,14 @@ class LikedProductsController extends Controller
         }
         $productIds = $mostLikedProducts->pluck('product_id');
         $mostPopularProducts = Product::whereIn('id', $productIds)->get();
+        while (count($mostPopularProducts) < $amount) {
+            $randomProduct = Product::whereNotIn('id', $mostPopularProducts->pluck('id'))
+                ->inRandomOrder()
+                ->first();
+            if ($randomProduct) {
+                $mostPopularProducts->push($randomProduct);
+            }
+        }
         if (!$mostPopularProducts) {
             return response()->json([
                 'status' => 404,
