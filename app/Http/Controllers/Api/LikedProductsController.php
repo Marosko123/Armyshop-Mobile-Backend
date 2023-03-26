@@ -41,23 +41,23 @@ class LikedProductsController extends Controller
         // check if this user_id exists
         $user = User::find($user_id);
 
+        if(!$user) {
+            return response()->json([
+                'status' => 501,
+                'message' => 'User with this ID was not found.'
+            ], 501);
+        }
+
         // check if this user already has this product liked
         $hasLiked = LikedProduct::where('user_id', $user_id)
             -> where('product_id', $product_id)
-            -> get();
+            -> exists();
         
         if($hasLiked) {
             return response()->json([
                 'status' => 500,
                 'message' => 'User with this ID has already liked this product.'
             ], 500);
-        }
-
-        if(!$user) {
-            return response()->json([
-                'status' => 501,
-                'message' => 'User with this ID was not found.'
-            ], 501);
         }
 
         $liked = [
@@ -76,7 +76,8 @@ class LikedProductsController extends Controller
                 'message' => $validator->messages()
             ], 422);
         } else {
-            if ($liked) {
+            $likedProduct = LikedProduct::create($liked);
+            if ($likedProduct) {
                 return response()->json([
                     'status' => 200,
                     'liked_product' => $liked
