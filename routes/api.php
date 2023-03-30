@@ -40,7 +40,7 @@ Route::post('users', [UsersController::class, 'add']);
 // update user
 Route::put('users/{id}/update', [UsersController::class, 'update']);
 // delete user
-Route::delete('users/{id}/delete', [UsersController::class, 'delete']);
+Route::delete('users/{id}', [UsersController::class, 'delete']);
 
 
 // LOGIN AND REGISTER
@@ -80,8 +80,8 @@ Route::get('subcategories/create', [SubcategoriesController::class, 'addAll']);
 // get basket for user
 Route::get('baskets/{user_id}', [BasketsController::class, 'getByUserId']);
 // add item to basket
-Route::post('baskets/add/{user_id}/{product_id}', [BasketsController::class, 'add']);
-// decrease item quantity from basket
+Route::post('baskets/{user_id}/{product_id}', [BasketsController::class, 'add']);
+// decrease item quantity from basket - toto zmenit?
 Route::delete('baskets/delete/{user_id}/{product_id}', [BasketsController::class, 'deleteItem']);
 // delete all items of given id from basket
 Route::delete('baskets/delete_all_items/{user_id}/{product_id}', [BasketsController::class, 'deleteAllItems']);
@@ -94,7 +94,7 @@ Route::put('baskets/update/{user_id}/{product_id}/{quantity}', [BasketsControlle
 // get all products
 Route::get('products', [ProductsController::class, 'getAll']);
 // get 1 product
-Route::get('products/product/{product_id}', [ProductsController::class, 'getOne']);
+Route::get('products/{product_id}', [ProductsController::class, 'getOne']); // changed
 // get products from category
 Route::get('products/category/{category_id}', [ProductsController::class, 'getFromCategory']);
 // get products from subcategory
@@ -124,7 +124,7 @@ Route::get('liked_products/{user_id}', [LikedProductsController::class, 'get']);
 // add to liked products
 Route::post('liked_products/add/{user_id}/{product_id}', [LikedProductsController::class, 'add']);
 // delete from liked products
-Route::delete('liked_products/delete/{user_id}/{product_id}', [LikedProductsController::class, 'delete']);
+Route::delete('liked_products/{user_id}/{product_id}', [LikedProductsController::class, 'delete']);
 // get most popular products
 Route::get('liked_products/popular/{amount}', [LikedProductsController::class, 'getMostPopular']);
 
@@ -161,3 +161,4 @@ Route::get('chat_rooms/permissions/{room_id}', [ChatRoomsController::class, 'get
 Route::post('chat_rooms/create', [ChatRoomsController::class, 'create']);
 // create chat room for 2 and more users
 Route::delete('chat_rooms/delete/{room_id}', [ChatRoomsController::class, 'delete']);
+
