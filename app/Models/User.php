@@ -19,7 +19,8 @@ class User extends Authenticatable
         'age',
         'address',
         'license_picture',
-        'is_license_valid'
+        'is_license_valid',
+        'telephone'
     ];
 
     protected $hidden = [

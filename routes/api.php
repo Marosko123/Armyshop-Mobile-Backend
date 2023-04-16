@@ -38,9 +38,9 @@ Route::get('users/{id}', [UsersController::class, 'getById']);
 // add user
 Route::post('users', [UsersController::class, 'add']);
 // update user
-Route::put('users/{id}/update', [UsersController::class, 'update']);
+Route::patch('users/{id}', [UsersController::class, 'update']);
 // delete user
-Route::delete('users/{id}/delete', [UsersController::class, 'delete']);
+Route::delete('users/{id}', [UsersController::class, 'delete']);
 
 
 // LOGIN AND REGISTER

@@ -18,7 +18,8 @@ class UsersSeeder extends Seeder
             'license_picture' => null,
             'is_license_valid' => true,
             'address' => 'FIIT STU',
-            'age' => 68
+            'age' => 68,
+            'telephone' => '+421900111222'
         ]);
 
         User::create([
