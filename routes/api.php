@@ -38,7 +38,7 @@ Route::get('users/{id}', [UsersController::class, 'getById']);
 // add user
 Route::post('users', [UsersController::class, 'add']);
 // update user
-Route::put('users/{id}/update', [UsersController::class, 'update']);
+Route::patch('users/{id}', [UsersController::class, 'update']);
 // delete user
 Route::delete('users/{id}', [UsersController::class, 'delete']);
 
@@ -158,7 +158,7 @@ Route::get('chat_rooms/{user_id}', [ChatRoomsController::class, 'getRoomsOfUser'
 // get all users of given chat room that have permission to write
 Route::get('chat_rooms/permissions/{room_id}', [ChatRoomsController::class, 'getUsersWithPermission']);
 // create chat room for 2 and more users
-Route::post('chat_rooms/create', [ChatRoomsController::class, 'create']);
+Route::post('chat_rooms', [ChatRoomsController::class, 'create']);
 // create chat room for 2 and more users
 Route::delete('chat_rooms/delete/{room_id}', [ChatRoomsController::class, 'delete']);
 

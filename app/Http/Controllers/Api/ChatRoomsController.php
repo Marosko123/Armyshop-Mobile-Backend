@@ -61,9 +61,9 @@ class ChatRoomsController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'room_name' => 'required|string|min:5|max:64',
-            'user_ids' => 'required|array|min:2',
-            'user_ids.*' => 'numeric'
+            'creator_id' => 'required|integer',
+            'room_name' => 'required|string|min:1|max:64',
+            'members' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -73,28 +73,16 @@ class ChatRoomsController extends Controller
             ], 422);
         }
 
-        $room_id = ChatRoom::orderBy('room_id', 'desc')
-            ->pluck('room_id')
-            ->first();
-
-        if (!$room_id) {
-            $room_id = 0;
-        }
-
-        $room_id++;
-
-        foreach ($request['user_ids'] as $user_id) {
-            $chatRoom = new ChatRoom;
-            $chatRoom->room_name = $request->room_name;
-            $chatRoom->user_id = $user_id;
-            $chatRoom->room_id = $room_id;
-            $chatRoom->save();
-        }
+        $chatRoom = ChatRoom::create([
+            'creator_id' => $request->creator_id,
+            'room_name' => $request->room_name,
+            'members' => $request->members,
+        ]);
 
         return response()->json([
             'status' => 200,
             'message' => 'Chat room created successfully',
-            'roomId' => $room_id
+            'chat_room' => $chatRoom
         ], 200);
     }
 
