@@ -14,9 +14,9 @@ return new class extends Migration {
     {
         Schema::create('chat_rooms', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('room_id');
+            $table->integer('creator_id');
             $table->string('room_name', 64);
+            $table->string('members', 300);
             $table->timestamps();
         });
     }

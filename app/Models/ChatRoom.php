@@ -12,9 +12,9 @@ class ChatRoom extends Model
     protected $table = 'chat_rooms';
 
     protected $fillable = [
-        'user_id',
-        'room_id',
-        'room_name'
+        'creator_id',
+        'room_name',
+        'members',
     ];
 
     protected $hidden = [

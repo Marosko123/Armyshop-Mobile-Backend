@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ChatRoom;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,10 @@ class LoginRegisterController extends Controller
         if (Auth::attempt($credentials)) {
             // Authentication successful
             $user = Auth::user();
+            $user->chat_rooms = ChatRoom::where('id', $user->id)
+                ->get();
             $token = $user->createToken('access_token')->accessToken;
+
             return response()->json([
                 'status' => 200,
                 'token' => $token,
