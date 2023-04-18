@@ -30,8 +30,14 @@ class LoginRegisterController extends Controller
         if (Auth::attempt($credentials)) {
             // Authentication successful
             $user = Auth::user();
-            $user->chat_rooms = ChatRoom::where('id', $user->id)
+
+            // $pattern = '/([\[,])' . $user->id . '([,\]])/';
+            // $user->chat_rooms = ChatRoom::where('members', 'REGEXP', $pattern)
+            $user->chat_rooms = ChatRoom::where('members', 'LIKE', '%' . $user->id . '%')
+                ->orWhere('creator_id', $user->id)
+                ->distinct()
                 ->get();
+
             $token = $user->createToken('access_token')->accessToken;
 
             return response()->json([
