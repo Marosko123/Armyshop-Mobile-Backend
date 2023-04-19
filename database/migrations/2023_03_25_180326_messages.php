@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->integer('room_id');
             $table->string('message', 1024);
             $table->integer('date');
+            $table->string('id_list_who_read')->default('[]');
             $table->timestamps();
         });
     }

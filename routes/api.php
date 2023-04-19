@@ -145,6 +145,8 @@ Route::delete('finished_orders/delete/{user_id}', [FinishedOrdersController::cla
 
 // get messages of user from room
 Route::get('messages/user/{user_id}/room/{room_id}', [MessagesController::class, 'getMessages']);
+// get only unread messages of user from room
+Route::get('messages/unread/user/{user_id}/room/{room_id}', [MessagesController::class, 'getUnreadMessages']);
 // get send message
 Route::post('messages', [MessagesController::class, 'sendMessage']);
 

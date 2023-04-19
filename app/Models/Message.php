@@ -15,7 +15,8 @@ class Message extends Model
         'sender_id',
         'room_id',
         'message',
-        'date'
+        'date',
+        'id_list_who_read'
     ];
 
     protected $hidden = [

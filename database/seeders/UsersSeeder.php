@@ -38,7 +38,7 @@ class UsersSeeder extends Seeder
             'id' => 3,
             'first_name' => 'Misko',
             'last_name' => 'Darovec',
-            'email' => 'misko@arymshop.xd',
+            'email' => 'misko@armyshop.xd',
             'password' => bcrypt('misko'),
             'license_picture' => null,
             'is_license_valid' => true,
