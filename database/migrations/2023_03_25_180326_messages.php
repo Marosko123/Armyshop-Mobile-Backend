@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->integer('sender_id');
             $table->integer('room_id');
             $table->string('message', 1024);
-            $table->date('time');
+            $table->integer('date');
             $table->timestamps();
         });
     }

@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
 		$this->call(CategoriesSeeder::class);
 		$this->call(SubcategoriesSeeder::class);
 		$this->call(ChatRoomsSeeder::class);
+		$this->call(MessagesSeeder::class);
 	}
 }

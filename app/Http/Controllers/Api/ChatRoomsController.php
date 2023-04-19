@@ -31,12 +31,14 @@ class ChatRoomsController extends Controller
             ], 404);
         }
 
-        $chatRooms = ChatRoom::where('user_id', $user_id)
-            ->pluck('room_id');
+        $chatRooms = ChatRoom::where('members', 'LIKE', '%' . $user_id . '%')
+            ->orWhere('creator_id', $user_id)
+            ->distinct()
+            ->get();
 
         return response()->json([
             'status' => 200,
-            'chatRooms' => $chatRooms
+            'chat_rooms' => $chatRooms
         ], 200);
     }
 

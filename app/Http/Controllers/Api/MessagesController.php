@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 use App\Models\User;
 use App\Models\Message;
 use App\Models\ChatRoom;
+use Illuminate\Support\Facades\Validator;
 
 class MessagesController extends Controller
 {
@@ -21,20 +22,8 @@ class MessagesController extends Controller
             ], 404);
         }
 
-        $chatRoom = ChatRoom::where('user_id', $user_id)
-            ->where('room_id', $room_id)
-            ->first();
-
-        // does have permission to get messages
-        if (!$chatRoom) {
-            return response()->json([
-                'status' => 403,
-                'message' => 'You do not have the permission to read this channel'
-            ], 403);
-        }
-
         $messages = Message::where('room_id', $room_id)
-            ->orderBy('time', 'asc')
+            ->orderBy('date', 'asc')
             ->get();
 
         return response()->json([
@@ -43,38 +32,39 @@ class MessagesController extends Controller
         ], 200);
     }
 
-    public function sendMessage(Request $request, $user_id, $room_id)
+    public function sendMessage(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'sender_id' => 'required|integer',
+            'room_id' => 'required|integer',
+            'message' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'message' => $validator->messages()
+            ], 422);
+        }
+
         // does sender exist
-        if (!User::find($user_id)) {
+        if (!User::find($request->sender_id)) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Sender not found'
             ], 404);
         }
 
-        $chatRoom = ChatRoom::where('user_id', $user_id)
-            ->where('room_id', $room_id)
-            ->first();
-
-        // does have permission to write
-        if (!$chatRoom) {
-            return response()->json([
-                'status' => 403,
-                'message' => 'You do not have the permission to write to this channel'
-            ], 403);
-        }
-
-        $message = new Message;
-        $message->sender_id = $user_id;
-        $message->room_id = $room_id;
-        $message->message = $request->message;
-        $message->time = Carbon::now();
-        $message->save();
+        $message = Message::create([
+            'sender_id' => $request->sender_id,
+            'room_id' => $request->room_id,
+            'message' => $request->message,
+            'date' => time()
+        ]);
 
         return response()->json([
             'status' => 200,
-            'message' => 'Message sent successfully',
+            'message' => $message,
         ], 200);
     }
 }
