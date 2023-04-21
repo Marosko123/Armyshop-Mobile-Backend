@@ -60,7 +60,7 @@ class LoginRegisterController extends Controller
             'email' => 'required|email|unique:users,email',
             'password1' => 'required',
             'password2' => 'required|same:password1',
-            'license_picture' => 'nullable|image|max:1024',
+            'license_picture' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
@@ -76,6 +76,7 @@ class LoginRegisterController extends Controller
         $user->password = bcrypt($request->password);
         $user->is_license_valid = $request->license_picture !== null;
         $user->save();
+        $user->chat_rooms = '[]';
         $user = User::where('id', $user->id)->first();
 
         if ($request->license_picture) {
