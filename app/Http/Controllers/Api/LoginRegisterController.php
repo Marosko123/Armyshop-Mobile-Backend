@@ -83,9 +83,9 @@ class LoginRegisterController extends Controller
             try {
                 $data = $request->license_picture;
 
-                list($type, $data) = explode(';', $data);
-                list(, $data) = explode(',', $data);
-                $data = base64_decode($data);
+                // list($type, $data) = explode(';', $data);
+                // list(, $data) = explode(',', $data);
+                // $data = base64_decode($data);
 
                 $path = 'militaryPassports/militaryPassportOfUserWithId_' . $user->id . '.png';
                 file_put_contents($path, $data);
