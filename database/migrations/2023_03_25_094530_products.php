@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->double('price');
             $table->string('description', 1024);
             $table->string('image_url');
+            $table->string('alt_text');
             $table->string('subcategory_id');
             $table->boolean('license_needed');
             $table->timestamps();
