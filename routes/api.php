@@ -82,7 +82,7 @@ Route::get('baskets/{user_id}', [BasketsController::class, 'getByUserId']);
 // add item to basket
 Route::post('baskets/{user_id}/{product_id}', [BasketsController::class, 'add']);
 // decrease item quantity from basket - toto zmenit?
-Route::delete('baskets/delete/{user_id}/{product_id}', [BasketsController::class, 'deleteItem']);
+Route::delete('baskets/{user_id}/{product_id}', [BasketsController::class, 'deleteItem']);
 // delete all items of given id from basket
 Route::delete('baskets/delete_all_items/{user_id}/{product_id}', [BasketsController::class, 'deleteAllItems']);
 // update product in basket
