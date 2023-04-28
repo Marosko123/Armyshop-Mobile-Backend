@@ -31,10 +31,10 @@ class BasketsController extends Controller
         // Return the products
         if ($products->isEmpty()) {
             return response()->json([
-                'status' => 204,
+                'status' => 205,
                 'user' => $user,
                 'products' => 'The basket is empty.',
-            ], 204);
+            ], 205);
         }
 
         return response()->json([
@@ -68,6 +68,9 @@ class BasketsController extends Controller
             ->first();
 
         if ($basket) {
+            if ($basket->quantity) {
+                $quantity += $basket->quantity; // Add the new quantity to the existing quantity
+            }
             $basket->quantity = $quantity;
             $basket->save();
         } else {
@@ -110,7 +113,7 @@ class BasketsController extends Controller
         if (!$basket) {
             return response()->json([
                 'status' => 404,
-                'message' => 'Basket does not contain product with id ' + $product_id,
+                'message' => 'Basket does not contain this product',
             ], 404);
         }
 
