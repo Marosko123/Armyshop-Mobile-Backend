@@ -37,11 +37,10 @@ class LoginRegisterController extends Controller
                 ->distinct()
                 ->get();
 
-            // TODO
-            // $path = 'militaryPassports/militaryPassportOfUserWithId_' . $user->id . '.png';
-            // $file = file_get_contents($path);
-            // $data = base64_encode($file);
-            // $user->license_picture = $data;
+            $path = 'militaryPassports/militaryPassportOfUserWithId_' . $user->id . '.png';
+            $file = file_get_contents($path);
+            $data = base64_encode($file);
+            $user->license_picture = $data;
 
             $token = $user->createToken('access_token')->plainTextToken;
 
@@ -50,7 +49,7 @@ class LoginRegisterController extends Controller
                 'token' => $token,
                 'user' => $user,
             ], 200);
-            
+
             return $response->withHeaders([
                 'Authorization' => 'Bearer ' . $token,
                 'Access-Control-Allow-Origin' => '*',
@@ -131,7 +130,8 @@ class LoginRegisterController extends Controller
         ], 200);
     }
 
-    public function getLogin() {
+    public function getLogin()
+    {
         return response()->json([
             'status' => 401,
             'message' => 'Unauthorized',
