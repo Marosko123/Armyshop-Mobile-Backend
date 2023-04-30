@@ -37,10 +37,14 @@ class LoginRegisterController extends Controller
                 ->distinct()
                 ->get();
 
-            $path = 'militaryPassports/militaryPassportOfUserWithId_' . $user->id . '.png';
-            $file = file_get_contents($path);
-            $data = base64_encode($file);
-            $user->license_picture = $data;
+            try {
+                $path = 'militaryPassports/militaryPassportOfUserWithId_' . $user->id . '.png';
+                $file = file_get_contents($path);
+                $data = base64_encode($file);
+                $user->license_picture = $data;
+            } catch (\Exception $e) {
+                $user->license_picture = '';
+            }
 
             $token = $user->createToken('access_token')->plainTextToken;
 
