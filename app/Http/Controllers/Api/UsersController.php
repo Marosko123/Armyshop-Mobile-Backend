@@ -94,7 +94,7 @@ class UsersController extends Controller
             'last_name' => 'nullable|string|max:191',
             'age' => 'nullable|integer',
             'address' => 'nullable|string|max:191',
-            'license_picture' => 'nullable|image|max:1024',
+            'license_picture' => 'nullable|string',
             'telephone' => [
                 'nullable',
                 'regex:/^\+\d{1,3}\d{10}$/',
@@ -122,8 +122,39 @@ class UsersController extends Controller
         $user->last_name = $request->last_name ?? $user->last_name;
         $user->age = $request->age ?? $user->age;
         $user->address = $request->address ?? $user->address;
-        $user->license_picture = $request->license_picture ?? $user->license_picture;
         $user->telephone = $request->telephone ?? $user->telephone;
+
+        if ($request->license_picture) {
+            try {
+                $data = $request->license_picture;
+                $data = base64_decode($data);
+                $path = 'militaryPassports/militaryPassportOfUserWithId_' . $user->id . '.png';
+                file_put_contents($path, $data);
+
+                $file = file_get_contents($path);
+                $data = base64_encode($file);
+                $user->license_picture = $data;
+                $user->is_license_valid = true;
+            } catch (\Exception $e) {
+                $errMessage = 'Our apologies.. Image was not uploaded successfully. Try reuploading it in your profile or contact our support.';
+
+                // Authenticate the user and generate an access token
+                $token = $user->createToken('access_token')->accessToken;
+                $user->license_picture = $errMessage;
+
+                return response()->json([
+                    'status' => 409,
+                    'token' => $token,
+                    'user' => $user,
+                    'message' => $errMessage,
+                ], 409);
+            }
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'OK'
+        ], 200);
 
         // Update password if provided
         if ($request->has('password')) {
