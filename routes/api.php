@@ -87,7 +87,10 @@ Route::delete('users/{id}', [UsersController::class, 'delete']);
 
 Route::get('login', [LoginRegisterController::class, 'getLogin'])->name('login');
 // login user
-Route::post('login', [LoginRegisterController::class, 'login'])->name('login');
+Route::post('login', [LoginRegisterController::class, 'getLogin'])->name('login');
+
+Route::post('login_user', [LoginRegisterController::class, 'login']);
+
 // register user
 Route::post('register', [LoginRegisterController::class, 'register']);
 

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class LoginRegisterController extends Controller
 {
 
-     public function login(Request $request)
+    public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
@@ -37,10 +37,11 @@ class LoginRegisterController extends Controller
                 ->distinct()
                 ->get();
 
-            $path = 'militaryPassports/militaryPassportOfUserWithId_' . $user->id . '.png';
-            $file = file_get_contents($path);
-            $data = base64_encode($file);
-            $user->license_picture = $data;
+            // TODO
+            // $path = 'militaryPassports/militaryPassportOfUserWithId_' . $user->id . '.png';
+            // $file = file_get_contents($path);
+            // $data = base64_encode($file);
+            // $user->license_picture = $data;
 
             $token = $user->createToken('access_token')->plainTextToken;
 
