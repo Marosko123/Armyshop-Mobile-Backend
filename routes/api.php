@@ -25,8 +25,48 @@ use App\Http\Controllers\Api\ChatRoomsController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+// protected routes
+Route::middleware('auth:sanctum')->group(function () {
+
+    // BASKETS
+
+    // get basket for user
+    Route::get('baskets/{user_id}', [BasketsController::class, 'getByUserId']);
+    // add item to basket
+    Route::post('baskets/{user_id}/{product_id}/{quantity}', [BasketsController::class, 'add']);
+    // decrease item quantity from basket - toto zmenit?
+    Route::delete('baskets/{user_id}/{product_id}', [BasketsController::class, 'deleteItem']);
+    // delete all items of given id from basket
+    Route::delete('baskets/delete_all_items/{user_id}/{product_id}', [BasketsController::class, 'deleteAllItems']);
+    // update product in basket
+    Route::put('baskets/update/{user_id}/{product_id}/{quantity}', [BasketsController::class, 'update']);
+
+    // LIKED PRODUCTS
+
+    // get Liked products
+    Route::get('liked_products/{user_id}', [LikedProductsController::class, 'get']);
+    // add to liked products
+    Route::post('liked_products/{user_id}/{product_id}', [LikedProductsController::class, 'add']);
+    // delete from liked products
+    Route::delete('liked_products/{user_id}/{product_id}', [LikedProductsController::class, 'delete']);
+    // get most popular products
+    Route::get('liked_products/popular/{amount}', [LikedProductsController::class, 'getMostPopular']);
+
+    // FINISHED ORDERS
+
+    // get all finished orders of all users
+    Route::get('finished_orders', [FinishedOrdersController::class, 'getAll']);
+    // get all finished orders of user
+    Route::get('finished_orders/{user_id}', [FinishedOrdersController::class, 'getAllOfUser']);
+    // add finished orders of user
+    Route::post('finished_orders/add/{user_id}', [FinishedOrdersController::class, 'add']);
+    // delete finished orders of user
+    Route::delete('finished_orders/delete/{user_id}', [FinishedOrdersController::class, 'delete']);
+
 });
 
 // USERS
@@ -45,8 +85,9 @@ Route::delete('users/{id}', [UsersController::class, 'delete']);
 
 // LOGIN AND REGISTER
 
+Route::get('login', [LoginRegisterController::class, 'getLogin'])->name('login');
 // login user
-Route::post('login', [LoginRegisterController::class, 'login']);
+Route::post('login', [LoginRegisterController::class, 'login'])->name('login');
 // register user
 Route::post('register', [LoginRegisterController::class, 'register']);
 
@@ -75,18 +116,7 @@ Route::get('subcategories/create/category/{category_id}', [SubcategoriesControll
 Route::get('subcategories/create', [SubcategoriesController::class, 'addAll']);
 
 
-// BASKETS
 
-// get basket for user
-Route::get('baskets/{user_id}', [BasketsController::class, 'getByUserId']);
-// add item to basket
-Route::post('baskets/{user_id}/{product_id}/{quantity}', [BasketsController::class, 'add']);
-// decrease item quantity from basket - toto zmenit?
-Route::delete('baskets/{user_id}/{product_id}', [BasketsController::class, 'deleteItem']);
-// delete all items of given id from basket
-Route::delete('baskets/delete_all_items/{user_id}/{product_id}', [BasketsController::class, 'deleteAllItems']);
-// update product in basket
-Route::put('baskets/update/{user_id}/{product_id}/{quantity}', [BasketsController::class, 'update']);
 
 
 // PRODUCTS
@@ -115,30 +145,6 @@ Route::post('products/create', [ProductsController::class, 'add']);
 Route::delete('products/delete/{product_id}', [ProductsController::class, 'delete']);
 // delete all products
 Route::delete('products/delete/all', [ProductsController::class, 'deleteAll']);
-
-
-// LIKED PRODUCTS
-
-// get Liked products
-Route::get('liked_products/{user_id}', [LikedProductsController::class, 'get']);
-// add to liked products
-Route::post('liked_products/{user_id}/{product_id}', [LikedProductsController::class, 'add']);
-// delete from liked products
-Route::delete('liked_products/{user_id}/{product_id}', [LikedProductsController::class, 'delete']);
-// get most popular products
-Route::get('liked_products/popular/{amount}', [LikedProductsController::class, 'getMostPopular']);
-
-
-// FINISHED ORDERS
-
-// get all finished orders of all users
-Route::get('finished_orders', [FinishedOrdersController::class, 'getAll']);
-// get all finished orders of user
-Route::get('finished_orders/{user_id}', [FinishedOrdersController::class, 'getAllOfUser']);
-// add finished orders of user
-Route::post('finished_orders/add/{user_id}', [FinishedOrdersController::class, 'add']);
-// delete finished orders of user
-Route::delete('finished_orders/delete/{user_id}', [FinishedOrdersController::class, 'delete']);
 
 
 // MESSAGES

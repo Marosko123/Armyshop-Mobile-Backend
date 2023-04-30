@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class LoginRegisterController extends Controller
 {
+
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -38,7 +39,7 @@ class LoginRegisterController extends Controller
                 ->distinct()
                 ->get();
 
-            $token = $user->createToken('access_token')->accessToken;
+            $token = $user->createToken('access_token')->plainTextToken;
 
             return response()->json([
                 'status' => 200,
@@ -112,7 +113,7 @@ class LoginRegisterController extends Controller
         }
 
         // Authenticate the user and generate an access token
-        $token = $user->createToken('access_token')->accessToken;
+        $token = $user->createToken('access_token')->plainTextToken;
 
         // Return response
         return response()->json([
@@ -120,5 +121,12 @@ class LoginRegisterController extends Controller
             'token' => $token,
             'user' => $user,
         ], 200);
+    }
+
+    public function getLogin() {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Unauthorized',
+        ], 401);
     }
 }
