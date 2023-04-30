@@ -63,9 +63,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // get all finished orders of user
     Route::get('finished_orders/{user_id}', [FinishedOrdersController::class, 'getAllOfUser']);
     // add finished orders of user
-    Route::post('finished_orders/add/{user_id}', [FinishedOrdersController::class, 'add']);
+    Route::post('finished_orders/{user_id}', [FinishedOrdersController::class, 'add']);
     // delete finished orders of user
-    Route::delete('finished_orders/delete/{user_id}', [FinishedOrdersController::class, 'delete']);
+    Route::delete('finished_orders/{user_id}', [FinishedOrdersController::class, 'delete']);
 
 });
 
@@ -100,8 +100,6 @@ Route::get('categories', [CategoriesController::class, 'get']);
 Route::get('categories/id/{id}', [CategoriesController::class, 'getById']);
 // get category by name
 Route::get('categories/name/{name}', [CategoriesController::class, 'getByName']);
-// create categories
-Route::get('categories/create', [CategoriesController::class, 'add']);
 
 
 // SUBCATEGORIES
@@ -110,41 +108,24 @@ Route::get('categories/create', [CategoriesController::class, 'add']);
 Route::get('subcategories/category/{category_id}', [SubcategoriesController::class, 'getByCategory']);
 // get subcategory of category by name
 Route::get('subcategories/name/{name}/category/{category_id}', [SubcategoriesController::class, 'getByName']);
-// create subcategories for category
-Route::get('subcategories/create/category/{category_id}', [SubcategoriesController::class, 'add']);
-// create all subcategories
-Route::get('subcategories/create', [SubcategoriesController::class, 'addAll']);
-
-
-
-
 
 // PRODUCTS
 
 // get all products
 Route::get('products', [ProductsController::class, 'getAll']);
 // get 1 product
-Route::get('products/{product_id}', [ProductsController::class, 'getOne']); // changed
+Route::get('products/{product_id}', [ProductsController::class, 'getOne']);
 // get products from category
 Route::get('products/category/{category_id}', [ProductsController::class, 'getFromCategory']);
 // get products from subcategory
 Route::get('products/subcategory/{subcategory_id}', [ProductsController::class, 'getFromSubcategory']);
 
 // create a product
-// sample creation JSON:
-// {
-//     "name": "product name",
-//     "price": 9.99,
-//     "description": "product description",
-//     "image_url": "https://example.com/image.jpg",
-//     "subcategory_id": 1,
-//     "license_needed": true
-// }
-Route::post('products/create', [ProductsController::class, 'add']);
+Route::post('products', [ProductsController::class, 'add']);
 // delete a product
-Route::delete('products/delete/{product_id}', [ProductsController::class, 'delete']);
+Route::delete('products/{product_id}', [ProductsController::class, 'delete']);
 // delete all products
-Route::delete('products/delete/all', [ProductsController::class, 'deleteAll']);
+Route::delete('products', [ProductsController::class, 'deleteAll']);
 
 
 // MESSAGES
@@ -168,4 +149,4 @@ Route::get('chat_rooms/permissions/{room_id}', [ChatRoomsController::class, 'get
 // create chat room for 2 and more users
 Route::post('chat_rooms', [ChatRoomsController::class, 'create']);
 // create chat room for 2 and more users
-Route::delete('chat_rooms/delete/{room_id}', [ChatRoomsController::class, 'delete']);
+Route::delete('chat_rooms/{room_id}', [ChatRoomsController::class, 'delete']);
