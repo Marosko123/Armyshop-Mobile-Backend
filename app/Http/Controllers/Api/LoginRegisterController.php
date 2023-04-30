@@ -32,12 +32,15 @@ class LoginRegisterController extends Controller
             // Authentication successful
             $user = Auth::user();
 
-            // $pattern = '/([\[,])' . $user->id . '([,\]])/';
-            // $user->chat_rooms = ChatRoom::where('members', 'REGEXP', $pattern)
             $user->chat_rooms = ChatRoom::where('members', 'LIKE', '%' . $user->id . '%')
                 ->orWhere('creator_id', $user->id)
                 ->distinct()
                 ->get();
+
+            $path = 'militaryPassports/militaryPassportOfUserWithId_' . $user->id . '.png';
+            $file = file_get_contents($path);
+            $data = base64_encode($file);
+            $user->license_picture = $data;
 
             $token = $user->createToken('access_token')->plainTextToken;
 
@@ -77,23 +80,20 @@ class LoginRegisterController extends Controller
         $user->password = bcrypt($request->password);
         $user->is_license_valid = $request->license_picture !== null;
         $user->save();
-        $user->chat_rooms = '[]';
         $user = User::where('id', $user->id)->first();
+        $user->chat_rooms = [];
 
         if ($request->license_picture) {
             try {
                 $data = $request->license_picture;
 
-                // list($type, $data) = explode(';', $data);
-                // list(, $data) = explode(',', $data);
-                // $data = base64_decode($data);
+                $data = base64_decode($data);
 
                 $path = 'militaryPassports/militaryPassportOfUserWithId_' . $user->id . '.png';
                 file_put_contents($path, $data);
 
                 $file = file_get_contents($path);
                 $data = base64_encode($file);
-                $data = 'data:image/png;base64,' . $data;
 
                 $user->license_picture = $data;
             } catch (\Exception $e) {

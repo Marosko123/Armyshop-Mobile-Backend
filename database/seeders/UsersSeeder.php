@@ -45,37 +45,5 @@ class UsersSeeder extends Seeder
             'address' => 'FIIT STU',
             'age' => 21
         ]);
-
-        User::create([
-            'id' => 4,
-            'first_name' => 'Bea',
-            'last_name' => 'Belkova',
-            'email' => 'bea@armyshop.xd',
-            'password' => bcrypt('bea'),
-            'license_picture' => null,
-            'is_license_valid' => true,
-            'address' => 'FIIT STU',
-            'age' => 21
-        ]);
-
-        User::create([
-            'id' => 5,
-            'first_name' => 'Milada',
-            'last_name' => 'Bednarova',
-            'email' => 'milada@bednarova.sk',
-            'password' => bcrypt('milada'),
-            'license_picture' => null,
-            'is_license_valid' => false,
-        ]);
-
-        User::create([
-            'id' => 6,
-            'first_name' => 'Vladimir',
-            'last_name' => 'Bednar',
-            'email' => 'vladimir@bednar.sk',
-            'password' => bcrypt('vladimir'),
-            'license_picture' => null,
-            'is_license_valid' => false,
-        ]);
     }
 }
