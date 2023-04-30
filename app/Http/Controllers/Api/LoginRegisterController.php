@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class LoginRegisterController extends Controller
 {
 
-    public function login(Request $request)
+     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
@@ -44,11 +44,18 @@ class LoginRegisterController extends Controller
 
             $token = $user->createToken('access_token')->plainTextToken;
 
-            return response()->json([
+            $response = response()->json([
                 'status' => 200,
                 'token' => $token,
                 'user' => $user,
             ], 200);
+            
+            return $response->withHeaders([
+                'Authorization' => 'Bearer ' . $token,
+                'Access-Control-Allow-Origin' => '*',
+                'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers' => 'Authorization, Content-Type, X-Requested-With'
+            ]);
         } else {
             // Authentication failed
             return response()->json([
