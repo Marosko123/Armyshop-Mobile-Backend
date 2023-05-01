@@ -137,7 +137,7 @@ Route::delete('products', [ProductsController::class, 'deleteAll']);
 Route::get('messages/user/{user_id}/room/{room_id}', [MessagesController::class, 'getMessages']);
 // get only unread messages of user from room
 Route::get('messages/unread/user/{user_id}/room/{room_id}', [MessagesController::class, 'getUnreadMessages']);
-// get send message
+// send message
 Route::post('messages', [MessagesController::class, 'sendMessage']);
 
 
@@ -153,3 +153,8 @@ Route::get('chat_rooms/permissions/{room_id}', [ChatRoomsController::class, 'get
 Route::post('chat_rooms', [ChatRoomsController::class, 'create']);
 // create chat room for 2 and more users
 Route::delete('chat_rooms/{room_id}', [ChatRoomsController::class, 'delete']);
+
+// PING
+Route::get('ping', function () {
+    return response()->json(['status' => 200, 'message' => 'pong'], 200);
+});

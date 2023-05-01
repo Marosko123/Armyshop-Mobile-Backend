@@ -24,6 +24,15 @@ class MessagesController extends Controller
             ->orderBy('date', 'asc')
             ->get();
 
+        $messages->map(function ($message) use ($user_id) {
+            $id_list_who_read = json_decode($message->id_list_who_read);
+            if (!in_array($user_id, $id_list_who_read)) {
+                array_push($id_list_who_read, intval($user_id));
+                $message->id_list_who_read = json_encode($id_list_who_read);
+                $message->save();
+            }
+        });
+
         return response()->json([
             'status' => 200,
             'messages' => $messages
