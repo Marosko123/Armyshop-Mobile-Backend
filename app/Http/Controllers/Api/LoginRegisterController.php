@@ -35,15 +35,17 @@ class LoginRegisterController extends Controller
             $user->chat_rooms = ChatRoom::where('members', 'LIKE', '%' . $user->id . '%')
                 ->orWhere('creator_id', $user->id)
                 ->distinct()
-                ->get();
+            ->get();
 
             try {
                 $path = 'militaryPassports/militaryPassportOfUserWithId_' . $user->id . '.png';
                 $file = file_get_contents($path);
                 $data = base64_encode($file);
                 $user->license_picture = $data;
+                $user->is_license_valid = true;
             } catch (\Exception $e) {
                 $user->license_picture = '';
+                $user->is_license_valid = false;
             }
 
             $token = $user->createToken('access_token')->plainTextToken;
@@ -107,12 +109,14 @@ class LoginRegisterController extends Controller
                 $data = base64_encode($file);
 
                 $user->license_picture = $data;
+                $user->is_license_valid = true;
             } catch (\Exception $e) {
                 $errMessage = 'Our apologies.. Image was not uploaded successfully. Try reuploading it in your profile or contact our support.';
 
                 // Authenticate the user and generate an access token
                 $token = $user->createToken('access_token')->accessToken;
                 $user->license_picture = $errMessage;
+                $user->is_license_valid = false;
 
                 return response()->json([
                     'status' => 409,

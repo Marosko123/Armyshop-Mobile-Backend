@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ChatRoom;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -36,6 +37,22 @@ class UsersController extends Controller
                 'message' => 'User not found'
             ], 404);
         }
+
+        try {
+            $path = 'militaryPassports/militaryPassportOfUserWithId_' . $user->id . '.png';
+            $file = file_get_contents($path);
+            $data = base64_encode($file);
+            $user->license_picture = $data;
+            $user->is_license_valid = true;
+        } catch (\Exception $e) {
+            $user->license_picture = '';
+            $user->is_license_valid = false;
+        }
+
+        $user->chat_rooms = ChatRoom::where('members', 'LIKE', '%' . $user->id . '%')
+                ->orWhere('creator_id', $user->id)
+                ->distinct()
+                ->get();
 
         return response()->json([
             'status' => 200,
@@ -141,6 +158,7 @@ class UsersController extends Controller
                 // Authenticate the user and generate an access token
                 $token = $user->createToken('access_token')->accessToken;
                 $user->license_picture = $errMessage;
+                $user->is_license_valid = false;
 
                 return response()->json([
                     'status' => 409,
