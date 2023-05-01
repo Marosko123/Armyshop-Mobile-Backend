@@ -67,6 +67,29 @@ Route::middleware('auth:sanctum')->group(function () {
     // delete finished orders of user
     Route::delete('finished_orders/{user_id}', [FinishedOrdersController::class, 'delete']);
 
+    // MESSAGES
+
+    // get messages of user from room
+    Route::get('messages/user/{user_id}/room/{room_id}', [MessagesController::class, 'getMessages']);
+    // get only unread messages of user from room
+    Route::get('messages/unread/user/{user_id}/room/{room_id}', [MessagesController::class, 'getUnreadMessages']);
+    // send message
+    Route::post('messages', [MessagesController::class, 'sendMessage']);
+
+
+    // CHAT ROOMS
+
+    // get all chat rooms
+    Route::get('chat_rooms', [ChatRoomsController::class, 'get']);
+    // get all chat rooms
+    Route::get('chat_rooms/{user_id}', [ChatRoomsController::class, 'getRoomsOfUser']);
+    // get all users of given chat room that have permission to write
+    Route::get('chat_rooms/permissions/{room_id}', [ChatRoomsController::class, 'getUsersWithPermission']);
+    // create chat room for 2 and more users
+    Route::post('chat_rooms', [ChatRoomsController::class, 'create']);
+    // create chat room for 2 and more users
+    Route::delete('chat_rooms/{room_id}', [ChatRoomsController::class, 'delete']);
+
 });
 
 // USERS
@@ -130,29 +153,6 @@ Route::delete('products/{product_id}', [ProductsController::class, 'delete']);
 // delete all products
 Route::delete('products', [ProductsController::class, 'deleteAll']);
 
-
-// MESSAGES
-
-// get messages of user from room
-Route::get('messages/user/{user_id}/room/{room_id}', [MessagesController::class, 'getMessages']);
-// get only unread messages of user from room
-Route::get('messages/unread/user/{user_id}/room/{room_id}', [MessagesController::class, 'getUnreadMessages']);
-// send message
-Route::post('messages', [MessagesController::class, 'sendMessage']);
-
-
-// CHAT ROOMS
-
-// get all chat rooms
-Route::get('chat_rooms', [ChatRoomsController::class, 'get']);
-// get all chat rooms
-Route::get('chat_rooms/{user_id}', [ChatRoomsController::class, 'getRoomsOfUser']);
-// get all users of given chat room that have permission to write
-Route::get('chat_rooms/permissions/{room_id}', [ChatRoomsController::class, 'getUsersWithPermission']);
-// create chat room for 2 and more users
-Route::post('chat_rooms', [ChatRoomsController::class, 'create']);
-// create chat room for 2 and more users
-Route::delete('chat_rooms/{room_id}', [ChatRoomsController::class, 'delete']);
 
 // PING
 Route::get('ping', function () {
