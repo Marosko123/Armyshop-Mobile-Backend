@@ -45,5 +45,17 @@ class UsersSeeder extends Seeder
             'address' => 'FIIT STU',
             'age' => 21
         ]);
+
+        User::create([
+            'id' => 4,
+            'first_name' => 'Dobry',
+            'last_name' => 'Vecer',
+            'email' => 'dobry@armyshop.xd',
+            'password' => bcrypt('misko'),
+            'license_picture' => null,
+            'is_license_valid' => true,
+            'address' => 'FIIT STU',
+            'age' => 21
+        ]);
     }
 }
