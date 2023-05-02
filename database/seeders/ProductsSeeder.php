@@ -752,6 +752,15 @@ class ProductsSeeder extends Seeder
         ]);
 
         // Explosives - C4s
+        Product::create([
+            "name" => "Brutal Bomb",
+            "price" => 999999.99,
+            "description" => "This is the most brutal bomb of all time, use at your own risk.",
+            "image_url" => "https://t3.ftcdn.net/jpg/00/36/30/26/240_F_36302691_76tFbSeySxWq501jPdR1ZJzS4Vl5zdEw.jpg",
+            "alt_text" => "bomb",
+            "subcategory_id" => 16,
+            "license_needed" => true
+        ]);
 
         // Explosives - Nukes
 
